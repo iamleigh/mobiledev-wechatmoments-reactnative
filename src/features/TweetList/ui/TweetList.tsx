@@ -7,6 +7,7 @@ import {BasicStyle, ITweet, RootState} from './../../../types';
 import {Tweet} from './../../../features/Tweet/ui/Tweet';
 import {useAppDispatch} from './../../../hooks';
 import {fetchUserTweets} from './../../../features/TweetList/state/tweets.thunk';
+import { getVisibleTweets } from '../utils/tweets.utils';
 
 interface ITweetListProps {
   tweets: Array<ITweet>;
@@ -21,7 +22,7 @@ function TweetListComponent({tweets}: ITweetListProps): ReactElement {
     dispatch(fetchUserTweets('jsmith'));
   }, [dispatch]);
 
-  const visibleTweets = tweets.slice(0, visibleCount);
+  const visibleTweets = getVisibleTweets({tweets: tweets, count: visibleCount});
 
   return (
     <View style={styles.container}>
