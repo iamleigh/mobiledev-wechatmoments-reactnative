@@ -3,6 +3,6 @@ import { createApiThunk } from '../../../utils/createApiThunk';
 
 export const fetchUser = createApiThunk({
 	type: 'user',
-	buildPath: (username: string) => `user/${username}`,
+	path: 'user.json',
 	transformResponse: (data: any) => data as IUser
 });

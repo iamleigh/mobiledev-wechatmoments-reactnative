@@ -6,18 +6,18 @@ interface ApiThunkOptions {
 	type: string;
 
 	// Function to build the endpoint
-	buildPath: (arg: string) => string;
+	path: string;
 
 	// (Optional) Transforms API data before return
 	transformResponse?: (data: any) => any;
 }
 
-export const createApiThunk = ({type, buildPath, transformResponse}: ApiThunkOptions) => {
+export const createApiThunk = ({type, path, transformResponse}: ApiThunkOptions) => {
 	return createAsyncThunk(
 		type,
 		async (username: string, thunkAPI) => {
 			try {
-				const response = await getRequest(buildPath(username));
+				const response = await getRequest(path);
 
 				if (response.status !== 200) {
 					return thunkAPI.rejectWithValue({
