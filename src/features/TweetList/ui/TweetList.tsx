@@ -27,10 +27,8 @@ function TweetListComponent({tweets}: ITweetListProps): ReactElement {
 
   const onRefresh = () => {
 	setRefreshing(true);
-	console.log('freshh!!!');
 
 	setTimeout(() => {
-		console.log('refreshing the list');
 		setVisibleCount(tweetsCount);
 		setRefreshing(false)
 	}, 2000);
