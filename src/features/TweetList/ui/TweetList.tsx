@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect} from 'react';
+import React, {ReactElement, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
@@ -14,16 +14,28 @@ interface ITweetListProps {
 
 function TweetListComponent({tweets}: ITweetListProps): ReactElement {
   const dispatch = useAppDispatch();
+  const tweetsCount = 5;
+  const [visibleCount, setVisibleCount] = useState(tweetsCount);
 
   useEffect(() => {
     dispatch(fetchUserTweets('jsmith'));
   }, [dispatch]);
 
+  const visibleTweets = tweets.slice(0, visibleCount);
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={tweets}
+        data={visibleTweets}
         renderItem={tweet => <Tweet tweet={tweet.item} />}
+		keyExtractor={(_, index) => `tweet-${index}`}
+		onEndReached={() => {
+			if (visibleCount < tweets.length) {
+				setVisibleCount(prev => prev + tweetsCount);
+			}
+		}}
+		onEndReachedThreshold={0.3}
+		ListFooterComponent={<View style={{ height: 100 }} />}
       />
     </View>
   );
