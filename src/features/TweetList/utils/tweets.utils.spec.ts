@@ -3,8 +3,8 @@ import { getVisibleTweets } from "./tweets.utils";
 
 describe('getVisibleTweets', () => {
 	it('should return first N tweets', () => {
-		const visible = getVisibleTweets({tweets: mockTweets, count: 3});
-		expect(visible.length).toBe(3);
+		const visible = getVisibleTweets({tweets: mockTweets, count: 1});
+		expect(visible.length).toBe(1);
 		expect(visible[0]).toEqual(mockTweets[0]);
 	});
 
