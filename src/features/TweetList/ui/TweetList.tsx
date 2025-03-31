@@ -28,6 +28,7 @@ function TweetListComponent({tweets}: ITweetListProps): ReactElement {
     <View style={styles.container}>
       <FlatList
         data={visibleTweets}
+		initialNumToRender={tweetsCount}
         renderItem={tweet => <Tweet tweet={tweet.item} />}
 		keyExtractor={(_, index) => `tweet-${index}`}
 		onEndReached={() => {
