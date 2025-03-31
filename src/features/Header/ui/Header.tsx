@@ -5,6 +5,7 @@ import {
   ImageStyle,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
   ViewStyle,
 } from 'react-native';
@@ -25,8 +26,14 @@ export function HeaderComponent({user}: IHeaderProps): ReactElement {
     dispatch(fetchUser('jsmith'));
   }, [dispatch]);
 
+  const {width, height} = useWindowDimensions();
+  const isLandscape = width > height;
+
   return (
-    <View style={styles.container} testID="header-container">
+    <View style={[
+		styles.container,
+		isLandscape && {height: 80}
+	]} testID="header-container">
       <ImageBackground
         style={styles.backgroundImage}
         source={{
