@@ -1,6 +1,6 @@
 import React, {ReactElement, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList} from 'react-native';
 import {connect} from 'react-redux';
 
 import {BasicStyle, ITweet, RootState} from './../../../types';
@@ -17,12 +17,24 @@ function TweetListComponent({tweets}: ITweetListProps): ReactElement {
   const dispatch = useAppDispatch();
   const tweetsCount = 5;
   const [visibleCount, setVisibleCount] = useState(tweetsCount);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUserTweets('jsmith'));
   }, [dispatch]);
 
   const visibleTweets = getVisibleTweets({tweets: tweets, count: visibleCount});
+
+  const onRefresh = () => {
+	setRefreshing(true);
+	console.log('freshh!!!');
+
+	setTimeout(() => {
+		console.log('refreshing the list');
+		setVisibleCount(tweetsCount);
+		setRefreshing(false)
+	}, 2000);
+  }
 
   return (
     <View style={styles.container}>
@@ -37,6 +49,8 @@ function TweetListComponent({tweets}: ITweetListProps): ReactElement {
 			}
 		}}
 		onEndReachedThreshold={0.3}
+		refreshing={refreshing}
+		onRefresh={onRefresh}
 		ListFooterComponent={<View style={{ height: 100 }} />}
       />
     </View>
