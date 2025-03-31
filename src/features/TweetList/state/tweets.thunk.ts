@@ -1,27 +1,8 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-
-import {getRequest} from '../../../network/Network';
 import {ITweet} from '../../../types';
+import { createApiThunk } from '../../../utils/createApiThunk';
 
-export const fetchUserTweets = createAsyncThunk(
-  'userTweets',
-  async (username: string, thunkAPI) => {
-    try {
-      const response = await getRequest(`user/${username}/tweets`);
-      if (response.status !== 200) {
-        return thunkAPI.rejectWithValue({
-			message: response.message || 'Error',
-			status: response.status
-		});
-      }
-      return response.data as Array<ITweet>;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue({
-		message: error.message,
-		code: error.code,
-		status: error.response?.status,
-		data: error.response?.data
-	  });
-    }
-  },
-);
+export const fetchUserTweets = createApiThunk({
+	type: 'userTweets',
+	buildPath: (username: string) => `user/${username}/tweets`,
+	transformResponse: (data: any) => data as Array<ITweet>
+});

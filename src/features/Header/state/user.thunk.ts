@@ -1,27 +1,8 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-
-import {getRequest} from '../../../network/Network';
 import {IUser} from '../../../types';
+import { createApiThunk } from '../../../utils/createApiThunk';
 
-export const fetchUser = createAsyncThunk(
-  'user',
-  async (username: string, thunkAPI) => {
-    try {
-      const response = await getRequest(`user/${username}`);
-      if (response.status !== 200) {
-        return thunkAPI.rejectWithValue({
-			message: response.message || 'Error',
-			status: response.status
-		});
-      }
-      return response.data as IUser;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue({
-		message: error.message,
-		code: error.code,
-		status: error.response?.status,
-		data: error.response?.data
-	  });
-    }
-  },
-);
+export const fetchUser = createApiThunk({
+	type: 'user',
+	buildPath: (username: string) => `user/${username}`,
+	transformResponse: (data: any) => data as IUser
+});
