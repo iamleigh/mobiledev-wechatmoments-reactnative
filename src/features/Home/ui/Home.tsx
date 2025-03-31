@@ -6,7 +6,7 @@ import {TweetList} from '../../TweetList/ui/TweetList';
 class Home extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View testID="home-container" style={styles.container}>
         <Header />
         <TweetList />
       </View>
